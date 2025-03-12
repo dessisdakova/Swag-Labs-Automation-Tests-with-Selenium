@@ -9,7 +9,16 @@ def test_continue_shopping_button_redirects_to_inventory_page(logged_in_driver):
     cart_page.click_continue_shopping_button()
 
     assert cart_page.get_current_url() == "https://www.saucedemo.com/inventory.html", \
-        "User is not redirected to correct page."
+        "User is not redirected to Inventory page."
+
+def test_checkout_button_redirects_to_checkout_page(logged_in_driver):
+    cart_page = CartPage(logged_in_driver)
+    cart_page.open()
+
+    cart_page.click_checkout_button()
+
+    assert cart_page.get_current_url() == "https://www.saucedemo.com/checkout-step-one.html", \
+        "User is not redirected to Checkout Step One page."
 
 
 def test_correct_product_is_added_to_cart(logged_in_driver):
