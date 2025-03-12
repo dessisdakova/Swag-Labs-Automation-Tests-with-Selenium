@@ -1,25 +1,33 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ex_con
+
+from pages.base_page import BasePage
+from pages.burger_menu import BurgerMenu
 
 
-class CartPage:
+class CartPage(BasePage, BurgerMenu):
+
+    items_in_cart = (By.CSS_SELECTOR, 'div[data-test="inventory-item-name"]')
+    continue_shopping_button = (By.CSS_SELECTOR, 'button[data-test="continue-shopping"]')
+    checkout_button = (By.CSS_SELECTOR, 'button[data-test="checkout"]')
+    explicit_wait_element = (By.CSS_SELECTOR, "span[data-test='title']")
+
     def __init__(self, driver):
-        self.driver = driver
-        self.items_in_cart = (By.CSS_SELECTOR, 'div[data-test="inventory-item-name"]')
-        self.continue_shopping_button = (By.CSS_SELECTOR, 'button[data-test="continue-shopping"]')
-        self.checkout_button = (By.CSS_SELECTOR, 'button[data-test="checkout"]')
+        super().__init__(driver)
+        BurgerMenu.__init__(self, driver)
+
+    @property
+    def url(self) -> str:
+        return super().url + "/cart.html"
+
+    @property
+    def explicit_wait_locator(self) -> tuple[str, str]:
+        return CartPage.explicit_wait_element
 
     def get_items_in_cart(self):
-        return self.driver.find_elements(*self.items_in_cart)
-
-    def open_page(self):
-        self.driver.get("https://www.saucedemo.com/cart.html")
-        WebDriverWait(self.driver, 10).until(ex_con.presence_of_element_located(
-            (By.CSS_SELECTOR, "span[data-test='title']")))
+        return self.driver.find_elements(*CartPage.items_in_cart)
 
     def click_continue_shopping_button(self):
-        self.driver.find_element(*self.click_continue_shopping_button()).click()
+        self.driver.find_element(*CartPage.continue_shopping_button).click()
 
     def click_checkout_button(self):
-        self.driver.find_element(*self.checkout_button()).click()
+        self.driver.find_element(*CartPage.checkout_button).click()
