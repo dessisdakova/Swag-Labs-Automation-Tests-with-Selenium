@@ -1,6 +1,13 @@
 class Credentials:
+    """
+    A class to manage user credentials based on a given user.
 
-    def __init__(self, user):
+    Attributes:
+        username (str): The username for the specified user.
+        password (str): The password, which is common across all users.
+    """
+
+    def __init__(self, user: str):
         self.username = {
             "standard": "standard_user",
             "locked-out": "locked_out_user",
