@@ -1,3 +1,4 @@
+from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 
 from pages.base_page import BasePage
@@ -26,3 +27,11 @@ class LoginPage(BasePage):
 
     def get_error_message_text(self) -> str:
         return self._get_text(self.error_message)
+
+    def is_login_successful(self) -> bool:
+        """Check if login was successful by verifying the absence of the login button."""
+        try:
+            self._wait_for_invisibility_of_element(self.login_button)
+            return True
+        except TimeoutException:
+            return False
