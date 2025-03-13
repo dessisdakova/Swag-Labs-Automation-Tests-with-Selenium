@@ -4,6 +4,7 @@ from pages.base_page import BasePage
 
 
 class LoginPage(BasePage):
+    """Page object for the Login page."""
 
     username_field = (By.CSS_SELECTOR, '[data-test="username"]')
     password_field = (By.CSS_SELECTOR, '[data-test="password"]')
@@ -19,9 +20,9 @@ class LoginPage(BasePage):
         return LoginPage.explicit_wait_element
 
     def login(self, username, password):
-        self.driver.find_element(*self.username_field).send_keys(username)
-        self.driver.find_element(*self.password_field).send_keys(password)
-        self.driver.find_element(*self.login_button).click()
+        self._enter_text_to_field(self.username_field, username)
+        self._enter_text_to_field(self.password_field, password)
+        self._click_button(self.login_button)
 
     def get_error_message_text(self) -> str:
-         return self.driver.find_element(*self.error_message).text
+        return self._get_text(self.error_message)

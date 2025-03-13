@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as ec
 
 
 class BurgerMenu:
+    """Page object for the Burger Menu."""
 
     nav_bar = (By.TAG_NAME, "nav")
     main_icon = (By.ID, "react-burger-menu-btn")
