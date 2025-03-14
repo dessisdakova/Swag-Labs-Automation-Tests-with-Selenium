@@ -1,5 +1,4 @@
 from selenium import webdriver
-from selenium.common import NoSuchElementException
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
@@ -24,7 +23,7 @@ class BasePage:
     def open(self):
         """Open the page and wait for the explicit wait locator to be present."""
         self.driver.get(self.url)
-        WebDriverWait(self.driver, 10).until(ec.presence_of_element_located(self.explicit_wait_locator))
+        WebDriverWait(self.driver, 5).until(ec.presence_of_element_located(self.explicit_wait_locator))
 
     def get_current_url(self) -> str:
         """Returns the current URL of the page."""
@@ -50,3 +49,7 @@ class BasePage:
         """Select an option from a dropdown menu."""
         dropdown = Select(self.driver.find_element(*locator))
         dropdown.select_by_visible_text(option)
+
+    def _wait_for_invisibility_of_element(self, locator: tuple[str, str]):
+        """Wait for an element to be invisibly or not present."""
+        WebDriverWait(self.driver, 5).until(ec.invisibility_of_element_located(locator))
